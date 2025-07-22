@@ -8,6 +8,7 @@ export const createAuthRouter = () => {
   const authController = new AuthController();
 
   authRouter.post("/login", authController.login);
+  authRouter.post("/register", authController.register);
 
   return authRouter;
 };
