@@ -5,14 +5,11 @@ export class AuthController {
   register = async (req, res) => {
     const { email, password } = req.body;
 
-    if (!email || !password) {
+    // TODO: Validate email and password with Zod and Schema
+    if (!email || !password)
       return res.status(400).json({ error: "Email and password are required" });
-    }
 
     const newUser = await UserModel.create({ email, password });
-
-    if (!newUser)
-      return res.status(500).json({ error: "Failed to create user" });
 
     return res.status(201).json({ user: newUser });
   };
@@ -20,16 +17,12 @@ export class AuthController {
   login = async (req, res) => {
     const { email, password } = req.body;
 
-    if (!email || !password) {
+    // TODO: Validate email and password with Zod and Schema
+    if (!email || !password)
       return res.status(400).json({ error: "Email and password are required" });
-    }
 
-    try {
-      const newUser = await UserModel.login({ email, password });
-      return res.status(201).json({ user: newUser });
-    } catch (error) {
-      console.error(`AuthController | login(): ${error}`);
-      return res.status(500).json({ error: "Email or Password is incorrect" });
-    }
+    const user = await UserModel.login({ email, password });
+
+    return res.status(200).json({ user });
   };
 }

@@ -2,10 +2,23 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 
 import { readJSON } from "../../utils/utils.js";
+import { AppError } from "../../utils/appError.js";
 
 const users = readJSON("../users.json");
 
 const saltRounds = 10;
+
+class AuthError extends AppError {
+  constructor(message = "Unauthorized") {
+    super(message, 401);
+  }
+}
+
+class UserNotCreatedError extends AppError {
+  constructor(message = "User not created") {
+    super(message, 400);
+  }
+}
 
 export class UserModel {
   static async create({ email, password }) {
@@ -20,27 +33,32 @@ export class UserModel {
 
       users.push(newUser);
       console.log("Available users:", users);
-      return newUser;
+
+      const { password: _, ...createdUser } = newUser;
+
+      return createdUser;
     } catch (error) {
       console.error(`UserModel | create(): ${error}`);
 
-      throw new Error("Failed to create user");
+      throw error;
     }
   }
 
   static async login({ email, password }) {
     try {
       const user = users.find((user) => user.email === email);
-      if (!user) throw new Error("User not found");
+      if (!user) throw new AuthError("User or password is incorrect");
 
       const match = await bcrypt.compare(password, user.password);
-      if (!match) throw new Error("Invalid password");
+      if (!match) throw new AuthError("User or password is incorrect");
 
-      return user;
+      const { password: _, ...currentUser } = user;
+
+      return currentUser;
     } catch (error) {
       console.error(`UserModel | login(): ${error}`);
 
-      throw new Error("Failed to login");
+      throw error;
     }
   }
 }

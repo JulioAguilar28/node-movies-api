@@ -5,6 +5,9 @@ import { createMovieRouter } from "./routes/movies.js";
 import { createAuthRouter } from "./routes/auth.js";
 import { corsMiddleware } from "./middlewares/cors.js";
 
+// Global Error Handler
+import { errorHandler } from "./middlewares/errorHandler.js";
+
 import { MovieModel } from "./models/mysql/movie.js";
 
 const PORT = process.env.PORT || 3000;
@@ -21,6 +24,9 @@ app.use("/api/auth", createAuthRouter());
 
 // Movies Router
 app.use("/movies", createMovieRouter({ movieModel: MovieModel }));
+
+// Global Error Handler
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(pc.yellow(`🔔 listen on port ${PORT}`));
