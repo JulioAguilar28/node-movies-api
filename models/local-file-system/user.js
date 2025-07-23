@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import jwt from "jsonwebtoken";
 
 import { readJSON } from "../../utils/utils.js";
 import { AppError } from "../../utils/appError.js";
@@ -54,7 +55,15 @@ export class UserModel {
 
       const { password: _, ...currentUser } = user;
 
-      return currentUser;
+      const token = jwt.sign(
+        { user: currentUser },
+        "super-mega-hyper-secret-key",
+        {
+          expiresIn: "1h",
+        }
+      );
+
+      return { ...currentUser, token };
     } catch (error) {
       console.error(`UserModel | login(): ${error}`);
 
