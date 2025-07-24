@@ -7,6 +7,7 @@ import { corsMiddleware } from "./middlewares/cors.js";
 
 // Global Error Handler
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { camelCaseBody } from "./middlewares/camelcaseKeys.js";
 
 import { MovieModel } from "./models/mysql/movie.js";
 
@@ -19,11 +20,14 @@ app.use(corsMiddleware());
 
 app.disable("x-powered-by");
 
+// Middleware to transform req.body to camelCase
+app.use(camelCaseBody);
+
 // Auth Router
 app.use("/api/auth", createAuthRouter());
 
 // Movies Router
-app.use("/movies", createMovieRouter({ movieModel: MovieModel }));
+app.use("/api/t/movies", createMovieRouter({ movieModel: MovieModel }));
 
 // Global Error Handler
 app.use(errorHandler);
