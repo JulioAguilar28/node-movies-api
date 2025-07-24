@@ -22,13 +22,13 @@ class UserNotCreatedError extends AppError {
 }
 
 export class UserModel {
-  static async create({ email, password }) {
+  static async create(input) {
     try {
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const hashedPassword = await bcrypt.hash(input.password, saltRounds);
 
       const newUser = {
+        ...input,
         id: crypto.randomUUID(),
-        email,
         password: hashedPassword,
       };
 
@@ -45,12 +45,12 @@ export class UserModel {
     }
   }
 
-  static async login({ email, password }) {
+  static async login(input) {
     try {
-      const user = users.find((user) => user.email === email);
+      const user = users.find((user) => user.email === input.email);
       if (!user) throw new AuthError("User or password is incorrect");
 
-      const match = await bcrypt.compare(password, user.password);
+      const match = await bcrypt.compare(input.password, user.password);
       if (!match) throw new AuthError("User or password is incorrect");
 
       const { password: _, ...currentUser } = user;

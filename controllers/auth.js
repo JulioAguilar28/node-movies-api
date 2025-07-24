@@ -1,27 +1,27 @@
 // TODO: UserModel should be passed as argument creating Dependecy Injection
 import { UserModel } from "../models/local-file-system/user.js";
 
+import { validateUser, validateUserEmailAndPassword } from "../schemas/user.js";
+
 export class AuthController {
   register = async (req, res) => {
-    const { email, password } = req.body;
+    const result = validateUser(req.body);
 
-    // TODO: Validate email and password with Zod and Schema
-    if (!email || !password)
-      return res.status(400).json({ error: "Email and password are required" });
+    if (result.error)
+      return res.status(400).json({ error: JSON.parse(result.error.message) });
 
-    const newUser = await UserModel.create({ email, password });
+    const newUser = await UserModel.create(result.data);
 
     return res.status(201).json({ user: newUser });
   };
 
   login = async (req, res) => {
-    const { email, password } = req.body;
+    const result = validateUserEmailAndPassword(req.body);
 
-    // TODO: Validate email and password with Zod and Schema
-    if (!email || !password)
-      return res.status(400).json({ error: "Email and password are required" });
+    if (result.error)
+      return res.status(400).json({ error: JSON.parse(result.error.message) });
 
-    const user = await UserModel.login({ email, password });
+    const user = await UserModel.login(result.data);
 
     return res.status(200).json({ user });
   };
