@@ -65,3 +65,36 @@ FROM movies_genres MG
 INNER JOIN genres G ON G.id = MG.genres_id
 INNER JOIN movies M ON MG.movies_id = M.id
 WHERE G.name LIKE 'action';
+
+-- Create users table
+CREATE TABLE IF NOT EXISTS users (
+  id BINARY(16) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+  name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  -- A hased password commonly has 60 characters
+  password CHAR(60) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+INSERT INTO users(name, last_name, email, password) VALUES
+("Julio", "Aguilar Montero", "julio.aguilar@montero.com", "$2b$10$SWAK6F4uzmpPWG5LDecTaObyGhlMd0kWgXVZD2n0502Cvlnh7AdMy"),
+("Maria Jose", "Sandoval Hernández", "majo@sandoval.com", "$2b$10$hjJ9s9faxdPr3l7cv6pawuDBqgVe6UjZH81Q39wqHH5HzxPLEte9e");
+
+CREATE TABLE IF NOT EXISTS users_favorites (
+  user_id BINARY(16) NOT NULL,
+  movie_id BINARY(16) NOT NULL,
+  PRIMARY KEY (user_id, movie_id),
+
+  -- Removes from favories if user or movie is deleted.
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE
+);
+
+SELECT *, BIN_TO_UUID(id) from users;
+
+INSERT INTO users_favorites(user_id, movie_id) VALUES
+((SELECT id FROM users WHERE email = 'julio.aguilar@montero.com'), (SELECT id FROM movies WHERE title = 'The Dark Knight')),
+((SELECT id FROM users WHERE email = 'julio.aguilar@montero.com'), (SELECT id FROM movies WHERE title = 'The Shawshank Redemption')),
+((SELECT id FROM users WHERE email = 'majo@sandoval.com'), (SELECT id FROM movies WHERE title = 'The Shawshank Redemption')),
+((SELECT id FROM users WHERE email = 'majo@sandoval.com'), (SELECT id FROM movies WHERE title = 'Inception'));
