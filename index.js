@@ -10,6 +10,8 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { camelCaseBody } from "./middlewares/camelcaseKeys.js";
 
 import { MovieModel } from "./models/mysql/movie.js";
+// import { UserModel } from "./models/local-file-system/user.js";
+import { UserModel } from "./models/mysql/user.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -24,7 +26,7 @@ app.disable("x-powered-by");
 app.use(camelCaseBody);
 
 // Auth Router
-app.use("/api/auth", createAuthRouter());
+app.use("/api/auth", createAuthRouter({ userModel: UserModel }));
 
 // Movies Router
 app.use("/api/t/movies", createMovieRouter({ movieModel: MovieModel }));
