@@ -9,7 +9,11 @@ const userSchema = z.object({
     invalid_type_error: "lastName must be a string",
     required_error: "lastName is required",
   }),
-  email: z.string().email("Email must be a valid email"),
+  email: z
+    .string({
+      required_error: "Email is required",
+    })
+    .email("Email must be a valid email"),
   password: z.string({
     invalid_type_error: "Password must be a string",
     required_error: "Password is required",
