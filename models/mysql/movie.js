@@ -1,14 +1,8 @@
 import mysql from "mysql2/promise";
 
-const config = {
-  host: "localhost",
-  user: "root",
-  port: 3306,
-  password: "",
-  database: "moviesdb",
-};
+import { CONFIG } from "../../sql/config.js";
 
-const connection = await mysql.createConnection(config);
+const connection = await mysql.createConnection(CONFIG);
 
 export class MovieModel {
   static async getAll({ genre }) {
@@ -29,14 +23,14 @@ export class MovieModel {
         JOIN movies M ON M.id = MG.movies_id
         WHERE G.name LIKE ?
         `,
-        [genre],
+        [genre]
       );
 
       return movies;
     }
 
     const [movies] = await connection.query(
-      "SELECT BIN_TO_UUID(id) id, title, year, director, poster, rate FROM movies;",
+      "SELECT BIN_TO_UUID(id) id, title, year, director, poster, rate FROM movies;"
     );
 
     return movies;
@@ -45,7 +39,7 @@ export class MovieModel {
   static async getById({ id }) {
     const [movies] = await connection.query(
       "SELECT BIN_TO_UUID(id) id, title, year, director, poster, rate FROM movies WHERE id = UUID_TO_BIN(?);",
-      [id],
+      [id]
     );
 
     return movies[0];
@@ -65,7 +59,7 @@ export class MovieModel {
         INSERT INTO movies (id, title, year, director, duration, poster, rate) VALUES
         (UUID_TO_BIN("${uuid}"), ?, ?, ?, ?, ?, ?);
       `,
-        [title, year, director, duration, poster, rate],
+        [title, year, director, duration, poster, rate]
       );
     } catch (e) {
       throw new Error("Could not create the movie");
@@ -82,7 +76,7 @@ export class MovieModel {
         `
         DELETE FROM movies WHERE id = UUID_TO_BIN(?);
         `,
-        [id],
+        [id]
       );
 
       return results.affectedRows > 0;
@@ -102,7 +96,7 @@ export class MovieModel {
         `
         UPDATE movies SET ${fieldsToBeModifed} WHERE id = UUID_TO_BIN(?);
         `,
-        [...valuesToBeModifed, id],
+        [...valuesToBeModifed, id]
       );
 
       const movie = await MovieModel.getById({ id });

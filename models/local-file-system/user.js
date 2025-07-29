@@ -3,26 +3,13 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 
 import { readJSON } from "../../utils/utils.js";
-import { AppError } from "../../utils/appError.js";
+import { AuthError } from "../../utils/authError.js";
 
 const users = readJSON("../users.json");
 
 const saltRounds = 10;
-
-class AuthError extends AppError {
-  constructor(message = "Unauthorized") {
-    super(message, 401);
-  }
-}
-
-class UserNotCreatedError extends AppError {
-  constructor(message = "User not created") {
-    super(message, 400);
-  }
-}
-
 export class UserModel {
-  static async create(input) {
+  static async create({ input }) {
     try {
       const hashedPassword = await bcrypt.hash(input.password, saltRounds);
 
@@ -45,12 +32,12 @@ export class UserModel {
     }
   }
 
-  static async login(input) {
+  static async login({ credentials }) {
     try {
-      const user = users.find((user) => user.email === input.email);
+      const user = users.find((user) => user.email === credentials.email);
       if (!user) throw new AuthError("User or password is incorrect");
 
-      const match = await bcrypt.compare(input.password, user.password);
+      const match = await bcrypt.compare(credentials.password, user.password);
       if (!match) throw new AuthError("User or password is incorrect");
 
       const { password: _, ...currentUser } = user;
