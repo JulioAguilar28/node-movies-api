@@ -1,26 +1,12 @@
 import mysql from "mysql2/promise";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 import { CONFIG } from "../../sql/config.js";
-import {
-  AuthError,
-  DuplicatedEmailError,
-  UserNotFound,
-} from "../../utils/authError.js";
+import { AuthError, DuplicatedEmailError } from "../../utils/authError.js";
 import { AppError } from "../../utils/appError.js";
+import { generateHashedPassword, matchPassword } from "../../utils/password.js";
+import { signAuthToken } from "../../utils/jwt.js";
 
 const connection = await mysql.createConnection(CONFIG);
-
-const saltRounds = 10;
-
-const generateHashedPassword = async (password) => {
-  return await bcrypt.hash(password, saltRounds);
-};
-
-const matchPassword = async (inputPassword, hashedPassword) => {
-  return await bcrypt.compare(inputPassword, hashedPassword);
-};
 
 export class UserModel {
   static async getById({ id }) {
@@ -46,8 +32,6 @@ export class UserModel {
         `,
         [email]
       );
-
-      console.log({ users });
 
       return users[0];
     } catch (reason) {
@@ -90,21 +74,12 @@ export class UserModel {
     const user = await UserModel.getByEmail({ email: credentials.email });
     if (!user) throw new AuthError("User or password is incorrect");
 
-    const match = matchPassword(credentials.password, user.password);
+    const match = await matchPassword(credentials.password, user.password);
     if (!match) throw new AuthError("User or password is incorrect");
 
     const { password: _, ...currentUser } = user;
 
-    // TODO: Add secret key to .env file
-    // Author: JAM
-    // Date: 2025-07-28
-    const token = jwt.sign(
-      { user: currentUser },
-      "super-mega-hyper-secrey-key",
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = signAuthToken({ user: currentUser });
 
     return { ...currentUser, token };
   }

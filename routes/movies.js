@@ -1,9 +1,11 @@
 import { Router } from "express";
 
 import { MovieController } from "../controllers/movies.js";
+import { authHandler } from "../middlewares/authHandler.js";
 
 export const createMovieRouter = ({ movieModel }) => {
   const moviesRouter = Router();
+  moviesRouter.use(authHandler);
 
   // Dependency Injection
   const movieController = new MovieController({ movieModel });

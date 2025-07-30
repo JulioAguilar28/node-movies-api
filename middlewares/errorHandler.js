@@ -1,5 +1,3 @@
-import { AppError } from "../utils/appError.js";
-
 export const errorHandler = (err, _req, res, _next) => {
   console.log("Error Handler | err: ", err);
 

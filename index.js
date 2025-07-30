@@ -1,5 +1,9 @@
 import express, { json } from "express";
+import dotenv from "dotenv";
 import pc from "picocolors";
+
+// DotEnv config
+dotenv.config();
 
 import { createMovieRouter } from "./routes/movies.js";
 import { createAuthRouter } from "./routes/auth.js";

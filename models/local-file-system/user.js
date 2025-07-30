@@ -1,17 +1,16 @@
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import jwt from "jsonwebtoken";
 
 import { readJSON } from "../../utils/utils.js";
 import { AuthError } from "../../utils/authError.js";
+import { signAuthToken } from "../../utils/jwt.js";
+import { generateHashedPassword, matchPassword } from "../../utils/password.js";
 
 const users = readJSON("../users.json");
-
-const saltRounds = 10;
 export class UserModel {
   static async create({ input }) {
     try {
-      const hashedPassword = await bcrypt.hash(input.password, saltRounds);
+      const hashedPassword = await generateHashedPassword(input.password);
 
       const newUser = {
         ...input,
@@ -37,18 +36,12 @@ export class UserModel {
       const user = users.find((user) => user.email === credentials.email);
       if (!user) throw new AuthError("User or password is incorrect");
 
-      const match = await bcrypt.compare(credentials.password, user.password);
+      const match = await matchPassword(credentials.password, user.password);
       if (!match) throw new AuthError("User or password is incorrect");
 
       const { password: _, ...currentUser } = user;
 
-      const token = jwt.sign(
-        { user: currentUser },
-        "super-mega-hyper-secret-key",
-        {
-          expiresIn: "1h",
-        }
-      );
+      const token = signAuthToken({ user: currentUser });
 
       return { ...currentUser, token };
     } catch (error) {
