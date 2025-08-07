@@ -91,10 +91,13 @@ CREATE TABLE IF NOT EXISTS users_favorites (
   FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE
 );
 
-SELECT *, BIN_TO_UUID(id) from users;
-
 INSERT INTO users_favorites(user_id, movie_id) VALUES
 ((SELECT id FROM users WHERE email = 'julio.aguilar@montero.com'), (SELECT id FROM movies WHERE title = 'The Dark Knight')),
 ((SELECT id FROM users WHERE email = 'julio.aguilar@montero.com'), (SELECT id FROM movies WHERE title = 'The Shawshank Redemption')),
 ((SELECT id FROM users WHERE email = 'majo@sandoval.com'), (SELECT id FROM movies WHERE title = 'The Shawshank Redemption')),
 ((SELECT id FROM users WHERE email = 'majo@sandoval.com'), (SELECT id FROM movies WHERE title = 'Inception'));
+
+SELECT U.email, M.title
+FROM users_favorites UF
+JOIN users U ON U.id = UF.user_id
+JOIN movies M ON M.id = UF.movie_id;

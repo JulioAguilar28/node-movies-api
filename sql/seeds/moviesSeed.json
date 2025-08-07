@@ -1,0 +1,173 @@
+[
+  {
+    "id": "3ab3daa2-b8b4-11ef-b09c-0aa2127308db",
+    "title": "Se7en",
+    "year": 1995,
+    "director": "David Fincher",
+    "poster": "https://m.media-amazon.com/images/I/51K8ouYrHeL._AC_.jpg",
+    "rate": "8.6",
+    "duration": 127
+  },
+  {
+    "id": "3ab3dbf4-b8b4-11ef-b09c-0aa2127308dc",
+    "title": "The Silence of the Lambs",
+    "year": 1991,
+    "director": "Jonathan Demme",
+    "poster": "https://m.media-amazon.com/images/I/51d6Z5XzT2L._AC_.jpg",
+    "rate": "8.6",
+    "duration": 118
+  },
+  {
+    "id": "3ab3dd40-b8b4-11ef-b09c-0aa2127308dd",
+    "title": "Saving Private Ryan",
+    "year": 1998,
+    "director": "Steven Spielberg",
+    "poster": "https://m.media-amazon.com/images/I/51NpxX9voFL._AC_.jpg",
+    "rate": "8.6",
+    "duration": 169
+  },
+  {
+    "id": "3ab3de7c-b8b4-11ef-b09c-0aa2127308de",
+    "title": "The Green Mile",
+    "year": 1999,
+    "director": "Frank Darabont",
+    "poster": "https://m.media-amazon.com/images/I/51b5vV6r9cL._AC_.jpg",
+    "rate": "8.6",
+    "duration": 189
+  },
+  {
+    "id": "3ab3dfc6-b8b4-11ef-b09c-0aa2127308df",
+    "title": "Gladiator",
+    "year": 2000,
+    "director": "Ridley Scott",
+    "poster": "https://m.media-amazon.com/images/I/51A9lDlFZsL._AC_.jpg",
+    "rate": "8.5",
+    "duration": 155
+  },
+  {
+    "id": "3ab3e114-b8b4-11ef-b09c-0aa2127308e0",
+    "title": "The Prestige",
+    "year": 2006,
+    "director": "Christopher Nolan",
+    "poster": "https://m.media-amazon.com/images/I/51X5EOzMcoL._AC_.jpg",
+    "rate": "8.5",
+    "duration": 130
+  },
+  {
+    "id": "3ab3e25e-b8b4-11ef-b09c-0aa2127308e1",
+    "title": "Whiplash",
+    "year": 2014,
+    "director": "Damien Chazelle",
+    "poster": "https://m.media-amazon.com/images/I/61s+3RffzRL._AC_SL1024_.jpg",
+    "rate": "8.5",
+    "duration": 106
+  },
+  {
+    "id": "3ab3e3a4-b8b4-11ef-b09c-0aa2127308e2",
+    "title": "The Departed",
+    "year": 2006,
+    "director": "Martin Scorsese",
+    "poster": "https://m.media-amazon.com/images/I/51jsdkNR8hL._AC_.jpg",
+    "rate": "8.5",
+    "duration": 151
+  },
+  {
+    "id": "3ab3e4ec-b8b4-11ef-b09c-0aa2127308e3",
+    "title": "Django Unchained",
+    "year": 2012,
+    "director": "Quentin Tarantino",
+    "poster": "https://m.media-amazon.com/images/I/61iZf2m+cFL._AC_SY679_.jpg",
+    "rate": "8.4",
+    "duration": 165
+  },
+  {
+    "id": "3ab3e632-b8b4-11ef-b09c-0aa2127308e4",
+    "title": "The Lion King",
+    "year": 1994,
+    "director": "Roger Allers, Rob Minkoff",
+    "poster": "https://m.media-amazon.com/images/I/51Z0WWyW0KL._AC_.jpg",
+    "rate": "8.5",
+    "duration": 88
+  },
+  {
+    "id": "3ab3e77e-b8b4-11ef-b09c-0aa2127308e5",
+    "title": "Back to the Future",
+    "year": 1985,
+    "director": "Robert Zemeckis",
+    "poster": "https://m.media-amazon.com/images/I/51v5ZpFyaFL._AC_.jpg",
+    "rate": "8.5",
+    "duration": 116
+  },
+  {
+    "id": "3ab3e8c6-b8b4-11ef-b09c-0aa2127308e6",
+    "title": "Parasite",
+    "year": 2019,
+    "director": "Bong Joon Ho",
+    "poster": "https://m.media-amazon.com/images/I/71c8Sz3wJWL._AC_SY679_.jpg",
+    "rate": "8.6",
+    "duration": 132
+  },
+  {
+    "id": "3ab3ea0e-b8b4-11ef-b09c-0aa2127308e7",
+    "title": "Joker",
+    "year": 2019,
+    "director": "Todd Phillips",
+    "poster": "https://m.media-amazon.com/images/I/71vh1U1CcsL._AC_SY679_.jpg",
+    "rate": "8.4",
+    "duration": 122
+  },
+  {
+    "id": "3ab3eb54-b8b4-11ef-b09c-0aa2127308e8",
+    "title": "Avengers: Endgame",
+    "year": 2019,
+    "director": "Anthony Russo, Joe Russo",
+    "poster": "https://m.media-amazon.com/images/I/81ExhpBEbHL._AC_SL1500_.jpg",
+    "rate": "8.4",
+    "duration": 181
+  },
+  {
+    "id": "3ab3eca0-b8b4-11ef-b09c-0aa2127308e9",
+    "title": "Inglourious Basterds",
+    "year": 2009,
+    "director": "Quentin Tarantino",
+    "poster": "https://m.media-amazon.com/images/I/51rggtPgmRL._AC_.jpg",
+    "rate": "8.3",
+    "duration": 153
+  },
+  {
+    "id": "3ab3edea-b8b4-11ef-b09c-0aa2127308ea",
+    "title": "The Wolf of Wall Street",
+    "year": 2013,
+    "director": "Martin Scorsese",
+    "poster": "https://m.media-amazon.com/images/I/51ZcJvNxH7L._AC_.jpg",
+    "rate": "8.2",
+    "duration": 180
+  },
+  {
+    "id": "3ab3ef2e-b8b4-11ef-b09c-0aa2127308eb",
+    "title": "The Truman Show",
+    "year": 1998,
+    "director": "Peter Weir",
+    "poster": "https://m.media-amazon.com/images/I/51Y0yM-VkHL._AC_.jpg",
+    "rate": "8.2",
+    "duration": 103
+  },
+  {
+    "id": "3ab3f074-b8b4-11ef-b09c-0aa2127308ec",
+    "title": "Toy Story",
+    "year": 1995,
+    "director": "John Lasseter",
+    "poster": "https://m.media-amazon.com/images/I/51NV1aK1t7L._AC_.jpg",
+    "rate": "8.3",
+    "duration": 81
+  },
+  {
+    "id": "3ab3f1bc-b8b4-11ef-b09c-0aa2127308ed",
+    "title": "WALL·E",
+    "year": 2008,
+    "director": "Andrew Stanton",
+    "poster": "https://m.media-amazon.com/images/I/81ZxQpN9nYL._AC_SL1500_.jpg",
+    "rate": "8.4",
+    "duration": 98
+  }
+]
