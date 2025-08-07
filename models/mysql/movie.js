@@ -1,13 +1,9 @@
-import mysql from "mysql2/promise";
-
-import { CONFIG } from "../../sql/config.js";
-
-const connection = await mysql.createConnection(CONFIG);
+import { pool } from "../../sql/db.js";
 
 export class MovieModel {
   static async getAll({ genre }) {
     if (genre) {
-      const [movies] = await connection.query(
+      const [movies] = await pool.query(
         `
         SELECT
           BIN_TO_UUID(M.id) as id,
@@ -29,7 +25,7 @@ export class MovieModel {
       return movies;
     }
 
-    const [movies] = await connection.query(
+    const [movies] = await pool.query(
       "SELECT BIN_TO_UUID(id) id, title, year, director, poster, rate FROM movies;"
     );
 
@@ -37,7 +33,7 @@ export class MovieModel {
   }
 
   static async getById({ id }) {
-    const [movies] = await connection.query(
+    const [movies] = await pool.query(
       "SELECT BIN_TO_UUID(id) id, title, year, director, poster, rate FROM movies WHERE id = UUID_TO_BIN(?);",
       [id]
     );
@@ -49,12 +45,12 @@ export class MovieModel {
     const { title, year, director, duration, poster, rate } = input;
 
     // Generate a uuid using mysql
-    const [uuidResult] = await connection.query("SELECT UUID() uuid;");
+    const [uuidResult] = await pool.query("SELECT UUID() uuid;");
     const [{ uuid }] = uuidResult;
 
     try {
       // Insert a movie into database
-      await connection.query(
+      await pool.query(
         `
         INSERT INTO movies (id, title, year, director, duration, poster, rate) VALUES
         (UUID_TO_BIN("${uuid}"), ?, ?, ?, ?, ?, ?);
@@ -72,7 +68,7 @@ export class MovieModel {
 
   static async delete({ id }) {
     try {
-      const [results] = await connection.query(
+      const [results] = await pool.query(
         `
         DELETE FROM movies WHERE id = UUID_TO_BIN(?);
         `,
@@ -92,7 +88,7 @@ export class MovieModel {
     const valuesToBeModifed = Object.values(input);
 
     try {
-      await connection.query(
+      await pool.query(
         `
         UPDATE movies SET ${fieldsToBeModifed} WHERE id = UUID_TO_BIN(?);
         `,

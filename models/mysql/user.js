@@ -1,16 +1,12 @@
-import mysql from "mysql2/promise";
-
-import { CONFIG } from "../../sql/config.js";
+import { pool } from "../../sql/db.js";
 import { AuthError, DuplicatedEmailError } from "../../utils/authError.js";
 import { AppError } from "../../utils/appError.js";
 import { generateHashedPassword, matchPassword } from "../../utils/password.js";
 import { signAuthToken } from "../../utils/jwt.js";
 
-const connection = await mysql.createConnection(CONFIG);
-
 export class UserModel {
   static async getById({ id }) {
-    const [users] = await connection.query(
+    const [users] = await pool.query(
       `
       SELECT BIN_TO_UUID(id) id, name, last_name, email
       FROM users
@@ -24,7 +20,7 @@ export class UserModel {
 
   static async getByEmail({ email }) {
     try {
-      const [users] = await connection.query(
+      const [users] = await pool.query(
         `
         SELECT BIN_TO_UUID(id) id, name, last_name, email, password
         FROM users
@@ -47,11 +43,11 @@ export class UserModel {
     const hashedPassword = await generateHashedPassword(password);
 
     // Generate a uuid using mysql
-    const [uuidResult] = await connection.query("SELECT UUID() uuid;");
+    const [uuidResult] = await pool.query("SELECT UUID() uuid;");
     const [{ uuid }] = uuidResult;
 
     try {
-      await connection.query(
+      await pool.query(
         `
         INSERT INTO users (id, name, last_name, email, password)
         VALUES (UUID_TO_BIN("${uuid}"), ?, ?, ?, ?)

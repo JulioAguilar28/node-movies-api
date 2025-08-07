@@ -4,4 +4,7 @@ export const CONFIG = {
   port: Number(process.env.DB_CONFIG_PORT) || 3306,
   password: process.env.DB_CONFIG_PASSWORD || "",
   database: process.env.DB_CONFIG_DATABASE || "moviesdb",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 };
