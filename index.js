@@ -7,6 +7,7 @@ dotenv.config();
 
 import { createMovieRouter } from "./routes/movies.js";
 import { createAuthRouter } from "./routes/auth.js";
+import { createFavoritesMoviesRouter } from "./routes/favorites.js";
 import { corsMiddleware } from "./middlewares/cors.js";
 
 // Global Error Handler
@@ -14,8 +15,8 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { camelCaseBody } from "./middlewares/camelcaseKeys.js";
 
 import { MovieModel } from "./models/mysql/movie.js";
-// import { UserModel } from "./models/local-file-system/user.js";
 import { UserModel } from "./models/mysql/user.js";
+import { FavoritesModel } from "./models/mysql/favorites.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -31,6 +32,12 @@ app.use(camelCaseBody);
 
 // Auth Router
 app.use("/api/auth", createAuthRouter({ userModel: UserModel }));
+
+// Favorites Router
+app.use(
+  "/api/t/movies/favorites",
+  createFavoritesMoviesRouter({ favoritesModel: FavoritesModel }),
+);
 
 // Movies Router
 app.use("/api/t/movies", createMovieRouter({ movieModel: MovieModel }));

@@ -97,7 +97,11 @@ INSERT INTO users_favorites(user_id, movie_id) VALUES
 ((SELECT id FROM users WHERE email = 'majo@sandoval.com'), (SELECT id FROM movies WHERE title = 'The Shawshank Redemption')),
 ((SELECT id FROM users WHERE email = 'majo@sandoval.com'), (SELECT id FROM movies WHERE title = 'Inception'));
 
-SELECT U.email, M.title
+SELECT * FROM users_favorites;
+
+SELECT M.title, M.year, M.director, M.duration, M.poster, M.rate
 FROM users_favorites UF
 JOIN users U ON U.id = UF.user_id
 JOIN movies M ON M.id = UF.movie_id;
+
+SELECT * FROM genres;
