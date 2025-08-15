@@ -6,13 +6,13 @@ export class FavoritesModel {
   static async getAll({ userId }) {
     const [movies] = await pool.query(
       `
-      SELECT M.title, M.year, M.director, M.duration, M.poster, M.rate
+      SELECT BIN_TO_UUID(M.id) id, M.title, M.year, M.director, M.duration, M.poster, M.rate
       FROM users_favorites UF
       JOIN users U ON U.id = UF.user_id
       JOIN movies M ON M.id = UF.movie_id
       WHERE UF.user_id = UUID_TO_BIN(?);
     `,
-      [userId],
+      [userId]
     );
 
     return movies;
@@ -22,12 +22,12 @@ export class FavoritesModel {
     try {
       await pool.query(
         `INSERT INTO users_favorites(user_id, movie_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?))`,
-        [userId, movieId],
+        [userId, movieId]
       );
 
       const [movies] = await pool.query(
         "SELECT BIN_TO_UUID(id) id, title, year, director, poster, rate FROM movies WHERE id = UUID_TO_BIN(?);",
-        [movieId],
+        [movieId]
       );
 
       return movies[0];
@@ -38,13 +38,28 @@ export class FavoritesModel {
       throw error;
     }
   }
+
+  static async delete({ userId, movieId }) {
+    try {
+      const [results] = await pool.query(
+        `DELETE FROM users_favorites WHERE user_id = UUID_TO_BIN(?) and movie_id = UUID_TO_BIN(?)`,
+        [userId, movieId]
+      );
+
+      return results.affectedRows > 0;
+    } catch (reason) {
+      console.error(`FavoriesModel | remove() ${reason}`);
+
+      throw reason;
+    }
+  }
 }
 
 const parseMySqlReason = (code) => {
   switch (code) {
     case "ER_DUP_ENTRY":
       return new DuplicatedFavoritesMovieError(
-        "This movie is already in your favorites",
+        "This movie is already in your favorites"
       );
 
     default:

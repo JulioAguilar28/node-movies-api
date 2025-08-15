@@ -99,9 +99,10 @@ INSERT INTO users_favorites(user_id, movie_id) VALUES
 
 SELECT * FROM users_favorites;
 
-SELECT M.title, M.year, M.director, M.duration, M.poster, M.rate
+SELECT U.email, M.title, M.year, M.director, M.duration, M.poster, M.rate
 FROM users_favorites UF
 JOIN users U ON U.id = UF.user_id
-JOIN movies M ON M.id = UF.movie_id;
+JOIN movies M ON M.id = UF.movie_id
+WHERE BIN_TO_UUID(UF.user_id) = '83fe341c-773c-11f0-a650-aeaa4a7465a1';
 
 SELECT * FROM genres;

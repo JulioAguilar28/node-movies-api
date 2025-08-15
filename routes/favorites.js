@@ -12,6 +12,7 @@ export const createFavoritesMoviesRouter = ({ favoritesModel }) => {
 
   favoritesRouter.get("/", asyncHandler(favoritesController.getAll));
   favoritesRouter.post("/:id", asyncHandler(favoritesController.add));
+  favoritesRouter.delete("/:id", asyncHandler(favoritesController.delete));
 
   return favoritesRouter;
 };

@@ -21,4 +21,21 @@ export class FavoritesController {
       .status(200)
       .json({ message: "The movie has been added as favorite" });
   };
+
+  delete = async (req, res) => {
+    const { id: movieId } = req.params;
+
+    const result = await this.favoritesModel.delete({
+      userId: req.user.id,
+      movieId,
+    });
+    if (!result)
+      return res
+        .status(404)
+        .json({ message: "Movie not found on your favorites" });
+
+    return res
+      .status(200)
+      .json({ message: "Movie has been removed from your favorites" });
+  };
 }
